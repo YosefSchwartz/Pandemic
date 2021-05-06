@@ -5,8 +5,10 @@
 namespace pandemic{
     class FieldDoctor : public Player{
         public:
-            FieldDoctor(Board b, City c);
-            FieldDoctor& treat(City city);
+            FieldDoctor(Board& b, City city): Player(b, city){
+                _role = "FieldDoctor";
+            };
+            Player& treat(City city) override;
 
     };
 }

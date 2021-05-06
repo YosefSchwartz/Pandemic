@@ -52,16 +52,19 @@ TEST_CASE("functions of Player"){
     CHECK_NOTHROW(p.fly_direct(Moscow));
     p.take_card(Moscow);
     CHECK_NOTHROW(p.fly_charter(Mumbai));
-    p.take_card(Moscow);
+    p.take_card(Mumbai);
     CHECK_NOTHROW(p.build());
     //Check again, now the player doesn't have the correct card,
     //but because the research station already exist, it's shouldn't throe exception
     CHECK_NOTHROW(p.build());
-    CHECK_NOTHROW(p.drive(Tehran));
+    CHECK_NOTHROW(p.drive(Karachi));
+
     CHECK_THROWS(p.build());
+    CHECK_NOTHROW(p.drive(Tehran));
     CHECK_NOTHROW(p.drive(Moscow));
     p.take_card(Moscow);
     CHECK_NOTHROW(p.build());
+    p.take_card(Moscow);
     CHECK_NOTHROW(p.fly_charter(Kolkata));
     p.take_card(Kolkata);
     CHECK_NOTHROW(p.build());
@@ -77,14 +80,14 @@ TEST_CASE("functions of Player"){
     //doesn't have 5 cards of this color, the methods shouldn't throw an exception
     CHECK_NOTHROW(p.discover_cure(Black));
     p.take_card(Moscow);
-    CHECK_NOTHROW(p.fly_direct(Lagos));
-    CHECK_NOTHROW(b.b[Lagos] = 2);
+    CHECK_NOTHROW(p.fly_charter(Lagos));
+    CHECK_NOTHROW(b[Lagos] = 2);
     CHECK_NOTHROW(p.treat(Lagos));
     CHECK_NOTHROW(p.treat(Lagos));
     CHECK_THROWS(p.treat(Lagos));
     p.take_card(Moscow);
     CHECK_NOTHROW(p.fly_direct(Moscow));
-    CHECK_NOTHROW(b.b[Moscow] = 4);
+    CHECK_NOTHROW(b[Moscow] = 4);
     CHECK_NOTHROW(p.treat(Moscow));
     CHECK_THROWS(p.treat(Moscow));
 }
@@ -116,9 +119,8 @@ TEST_CASE("Special functions of each role"){
     sci.take_card(London).take_card(Essen);
     p.take_card(London).take_card(Essen);
     sci.take_card(SaoPaulo).build();
-    CHECK_NOTHROW(sci.discover_cure(Blue));
     CHECK_THROWS(p.discover_cure(Blue));
-
+    CHECK_NOTHROW(sci.discover_cure(Blue));
     /*
     Reasearcher can "Discover_cure" anywhere, even if research station don't exist at this city.
     */
@@ -127,7 +129,7 @@ TEST_CASE("Special functions of each role"){
     p.take_card(Lima).fly_direct(Lima);
     p.take_card(LosAngeles).take_card(Miami).take_card(MexicoCity).take_card(SaoPaulo).take_card(BuenosAires);
     CHECK_THROWS(p.discover_cure(Yellow));
-    CHECK_NOTHROW(p.discover_cure(Yellow));
+    CHECK_NOTHROW(res.discover_cure(Yellow));
 
     /*
     When medic "treat" all disease cube removed, not just one.
@@ -139,7 +141,7 @@ TEST_CASE("Special functions of each role"){
    med.take_card(Taipei).build();
    b[Taipei] = 4;
    med.treat(Taipei);
-   CHECK_EQ(b[Taipei],4);
+   CHECK_EQ(b[Taipei],0);
    b[Taipei] = 4;
    p.treat(Taipei);
    CHECK_NE(b[Taipei],4);
@@ -165,7 +167,7 @@ TEST_CASE("Special functions of each role"){
     vir.take_card(LosAngeles);
     b[LosAngeles] = 3;
     CHECK_NOTHROW(vir.treat(LosAngeles));
-    CHECK_EQ(b[LosAngeles],2);
+    CHECK_EQ(b[LosAngeles],0); //Cause we dicover above cure for all disease
     p.take_card(LosAngeles);
     CHECK_THROWS(p.treat(LosAngeles));
 
@@ -183,7 +185,9 @@ TEST_CASE("Special functions of each role"){
     FieldDoctor dieDoc(b,Delhi);
     p.take_card(Delhi).fly_direct(Delhi);
     b[Karachi] = 3;
+    // cout<<b;
     CHECK_NOTHROW(dieDoc.treat(Karachi));
+    // cout<<b;
     CHECK_EQ(b[Karachi],2);
     p.take_card(Karachi);
     CHECK_THROWS(p.treat(Karachi));

@@ -36,7 +36,9 @@ void take_four_red_cards(Player& player) {
 
 // Checks if the given player can discover a cure.
 bool can_discover_cure(Board& board, Player& player, Color color) {
+	// cout<<board;
 	board.remove_cures();
+	// cout<<board;
 	try {
 		player.discover_cure(color);
 		return true;
@@ -48,10 +50,9 @@ bool can_discover_cure(Board& board, Player& player, Color color) {
 // Check the conditions in which the given player can discover a cure.
 void check_cure_discovery(Board& board, Player& player) {
 	cout << "Checking a " << player.role() << ": " << endl;
-
 	take_four_red_cards(player);
 	cout << "  Four red cards, no research station: " << can_discover_cure(board, player, Color::Red) << endl;
-
+	
 	take_four_red_cards(player);
 	player.drive(City::Atlanta);
 	cout << "  Four red cards, in a research station: " << can_discover_cure(board, player, Color::Red) << endl;
@@ -75,6 +76,7 @@ void check_cure_discovery(Board& board, Player& player) {
 int main() {
 	cout << boolalpha;
 	Board board;
+	
 
 	OperationsExpert builder {board, City::Atlanta}; 
 	builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.

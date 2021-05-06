@@ -4,7 +4,10 @@ namespace pandemic{
 
     class Dispatcher : public Player{
         public:
-            Dispatcher(Board b, City city);
-            Dispatcher& fly_direct(City desCity);
+            Dispatcher(Board& b, City city) : Player(b,city){
+                _role = "Dispatcher";
+            };
+            
+            Player& fly_direct(City desCity) override;
     };
 }

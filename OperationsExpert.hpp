@@ -5,8 +5,10 @@
 namespace pandemic{
     class OperationsExpert:public Player{
         public:
-        OperationsExpert(Board b, City c);
-        void build();
+        OperationsExpert(Board& b, City city): Player(b, city){
+            _role = "OperationsExpert";
+        };
+        Player& build() override;
 
     };
 

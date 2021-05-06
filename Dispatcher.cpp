@@ -4,18 +4,13 @@
 using namespace std;
 
 namespace pandemic{
-    Dispatcher::Dispatcher(Board b, City c) : Player(b,c){
-        this->_role = "Dispatcher";
-    }
-        Dispatcher& Dispatcher::fly_direct(City desCity){
-        // auto it = find(_hand.begin(),_hand.end(),desCity));
-        // if(*it > 0){
-        //     _currentCity = desCity;
-        //     _hand.earse(it);
 
-        // }
-
-        cout<<"FLY DIRECT TO: " + to_string(desCity)<< "USE BY DISPATCHER"<<endl;
+    Player& Dispatcher::fly_direct(City desCity){
+        if(this->board.b[_currentCity].ResearchStation){
+            this->_currentCity = desCity;
+        } else {
+            return Player::fly_direct(desCity);
+        }
         return *this;
     }
 }
